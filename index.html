@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      font-family: "Comfortaa", cursive, sans-serif;
+    }
+
+    #header, #navbar {
+      margin: 0;
+      padding: 0;
+    }
+
+    #header h1 {
+      margin: 0;
+      padding-bottom: 10px;
+    }
+
+    /* === LIGHT MODE === */
+    .LightMode #header {
+      background: linear-gradient(lightblue, seagreen);
+      color: black;
+      border: 3px solid black;
+      border-radius: 12px;
+      box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+      padding: 30px;
+      text-align: center;
+    }
+
+    .LightMode #navbar {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      background-color: #f0f0f0;
+      border-bottom: 2px solid #ccc;
+      padding: 15px 10px;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    .LightMode #navbar a {
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+      padding-bottom: 5px;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .LightMode #navbar a::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      background-color: seagreen;
+      transition: width 0.3s ease;
+    }
+
+    .LightMode #navbar a:hover::after {
+      width: 100%;
+    }
+
+    .LightMode #body {
+      background: white;
+      color: black;
+    }
+
+    .LightMode .important {
+      animation: flash 1s steps(1, start) infinite;
+    }
+
+    @keyframes flash {
+      0%, 100% {
+        color: black;
+        font-weight: bold;
+      }
+      50% {
+        color: red;
+        font-weight: normal;
+      }
+    }
+
+    .LightMode .ModeSwitch {
+      width: 150px;
+      height: 60px;
+      border: 2px solid black;
+      border-radius: 10px;
+      background: linear-gradient(135deg, black 50%, white 50%);
+      box-shadow:
+        inset 2px 2px 4px rgba(255,255,255,0.5),
+        inset -2px -2px 4px rgba(0,0,0,0.3),
+        2px 2px 6px rgba(0,0,0,0.3);
+      cursor: pointer;
+      font-weight: bold;
+      text-align: center;
+      line-height: 60px;
+      user-select: none;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .LightMode .hover-text {
+      display: none;
+      position: absolute;
+      top: 70px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: black;
+      color: white;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .LightMode .button-container:hover .hover-text {
+      display: block;
+    }
+
+    .LightMode footer {
+      color: white;
+      background-color: black;
+      text-align: center;
+      padding: 15px 0;
+      margin-top: 30px;
+      border-radius: 0 0 12px 12px;
+    }
+
+    /* === DARK MODE === */
+    .DarkMode #header {
+      background: linear-gradient(rgb(10, 10, 10), rgb(40, 40, 40));
+      color: white;
+      border: 3px solid white;
+      border-radius: 12px;
+      box-shadow: 3px 3px 5px rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      text-align: center;
+    }
+
+    .DarkMode #navbar {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      background-color: #222;
+      border-bottom: 2px solid #444;
+      padding: 15px 10px;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    .DarkMode #navbar a {
+      text-decoration: none;
+      color: #ddd;
+      font-weight: bold;
+      padding-bottom: 5px;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .DarkMode #navbar a::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      background-color: lightseagreen;
+      transition: width 0.3s ease;
+    }
+
+    .DarkMode #navbar a:hover::after {
+      width: 100%;
+    }
+
+    .DarkMode #body {
+      background: black;
+      color: white;
+    }
+
+    .DarkMode .important {
+      animation: flashDark 1s steps(1, start) infinite;
+    }
+
+    @keyframes flashDark {
+      0%, 100% {
+        color: white;
+        font-weight: bold;
+      }
+      50% {
+        color: cyan;
+        font-weight: normal;
+      }
+    }
+
+    .DarkMode .ModeSwitch {
+      width: 150px;
+      height: 60px;
+      border: 2px solid white;
+      border-radius: 10px;
+      background: linear-gradient(135deg, white 50%, black 50%);
+      box-shadow:
+        inset 2px 2px 4px rgba(0,0,0,0.5),
+        inset -2px -2px 4px rgba(255,255,255,0.2),
+        2px 2px 6px rgba(255,255,255,0.2);
+      cursor: pointer;
+      font-weight: bold;
+      text-align: center;
+      line-height: 60px;
+      user-select: none;
+      transition: all 0.2s ease;
+      color: black;
+      flex-shrink: 0;
+    }
+
+    .DarkMode .hover-text {
+      display: none;
+      position: absolute;
+      top: 70px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: white;
+      color: black;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .DarkMode .button-container:hover .hover-text {
+      display: block;
+    }
+
+    .DarkMode footer {
+      color: black;
+      background-color: white;
+      text-align: center;
+      padding: 15px 0;
+      margin-top: 30px;
+      border-radius: 0 0 12px 12px;
+    }
+
+    /* === Content + Notifications sidebar layout === */
+    #content-wrapper {
+      display: flex;
+      gap: 20px;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+
+    #body {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    #notificationsSidebar {
+      width: 300px;
+      background-color: #f5f5f5;
+      border: 2px solid #ccc;
+      border-radius: 12px;
+      padding: 20px;
+      box-sizing: border-box;
+      height: fit-content;
+      color: #222;
+    }
+
+    .DarkMode #notificationsSidebar {
+      background-color: #222;
+      border-color: #444;
+      color: #ddd;
+    }
+
+    #notificationsSidebar h3 {
+      margin-top: 0;
+    }
+
+    #notificationsList {
+      list-style: none;
+      padding-left: 0;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    #notificationsList li {
+      padding: 8px 5px;
+      border-bottom: 1px solid #aaa;
+    }
+
+    .DarkMode #notificationsList li {
+      border-color: #666;
+    }
+  </style>
+</head>
+<body class="LightMode">
+  <header id="header">
+    <h1>Welcome to BAG Studios!</h1>
+  </header>
+  <nav id="navbar">
+    <a href="mods.html">MODS</a>
+    <a href="contacts.html">CONTACTS</a>
+    <a href="projects.html">PROJECTS</a>
+    <a href="about.html">ABOUT US</a>
+    <a href="downloads.html">DOWNLOADS</a>
+    <a href="javaCompiler.html">WRITE JAVA</a>
+    <a href="pythonCompiler.html">WRITE PYTHON</a>
+    <a href="cCompiler.html">WRITE C</a>
+    <button class="ModeSwitch" id="modeSwitchBtn" title="Switch theme">Switch Theme</button>
+  </nav>
+
+  <div id="content-wrapper">
+    <main id="body">
+      <h2>Hello! We are delighted to have you here. If this is your first time here, you might want to go on a little <a href="guide.html">tour</a>!</h2>
+      <p>If not, welcome back! If you are here to apply for developer status and help us here, go to our <a href="apply.html">application page</a>. If not, have a look around.</p>
+    </main>
+
+    <aside id="notificationsSidebar">
+      <h3>Notifications</h3>
+      <ul id="notificationsList">
+        <li>No new notifications.</li>
+      </ul>
+    </aside>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 BAG Studios. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    const modeSwitchBtn = document.getElementById('modeSwitchBtn');
+    const body = document.body;
+
+    // On page load, check saved mode
+    const savedMode = localStorage.getItem('mode');
+    if (savedMode) {
+      body.classList.remove('LightMode', 'DarkMode');
+      body.classList.add(savedMode);
+    }
+
+    function updateButtonText() {
+      if (body.classList.contains('LightMode')) {
+        modeSwitchBtn.textContent = 'Switch to Dark Mode';
+      } else {
+        modeSwitchBtn.textContent = 'Switch to Light Mode';
+      }
+    }
+    updateButtonText();
+
+    modeSwitchBtn.addEventListener('click', () => {
+      if (body.classList.contains('LightMode')) {
+        body.classList.replace('LightMode', 'DarkMode');
+        localStorage.setItem('mode', 'DarkMode');
+      } else {
+        body.classList.replace('DarkMode', 'LightMode');
+        localStorage.setItem('mode', 'LightMode');
+      }
+      updateButtonText();
+    });
+  </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      font-family: "Comfortaa", cursive, sans-serif;
+    }
+
+    #header, #navbar {
+      margin: 0;
+      padding: 0;
+    }
+
+    #header h1 {
+      margin: 0;
+      padding-bottom: 10px;
+    }
+
+    /* === LIGHT MODE === */
+    .LightMode #header {
+      background: linear-gradient(lightblue, seagreen);
+      color: black;
+      border: 3px solid black;
+      border-radius: 12px;
+      box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+      padding: 30px;
+      text-align: center;
+    }
+
+    .LightMode #navbar {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      background-color: #f0f0f0;
+      border-bottom: 2px solid #ccc;
+      padding: 15px 10px;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    .LightMode #navbar a {
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+      padding-bottom: 5px;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .LightMode #navbar a::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      background-color: seagreen;
+      transition: width 0.3s ease;
+    }
+
+    .LightMode #navbar a:hover::after {
+      width: 100%;
+    }
+
+    .LightMode #body {
+      background: white;
+      color: black;
+    }
+
+    .LightMode .important {
+      animation: flash 1s steps(1, start) infinite;
+    }
+
+    @keyframes flash {
+      0%, 100% {
+        color: black;
+        font-weight: bold;
+      }
+      50% {
+        color: red;
+        font-weight: normal;
+      }
+    }
+
+    .LightMode .ModeSwitch {
+      width: 150px;
+      height: 60px;
+      border: 2px solid black;
+      border-radius: 10px;
+      background: linear-gradient(135deg, black 50%, white 50%);
+      box-shadow:
+        inset 2px 2px 4px rgba(255,255,255,0.5),
+        inset -2px -2px 4px rgba(0,0,0,0.3),
+        2px 2px 6px rgba(0,0,0,0.3);
+      cursor: pointer;
+      font-weight: bold;
+      text-align: center;
+      line-height: 60px;
+      user-select: none;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .LightMode .hover-text {
+      display: none;
+      position: absolute;
+      top: 70px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: black;
+      color: white;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .LightMode .button-container:hover .hover-text {
+      display: block;
+    }
+
+    .LightMode footer {
+      color: white;
+      background-color: black;
+      text-align: center;
+      padding: 15px 0;
+      margin-top: 30px;
+      border-radius: 0 0 12px 12px;
+    }
+
+    /* === DARK MODE === */
+    .DarkMode #header {
+      background: linear-gradient(rgb(10, 10, 10), rgb(40, 40, 40));
+      color: white;
+      border: 3px solid white;
+      border-radius: 12px;
+      box-shadow: 3px 3px 5px rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      text-align: center;
+    }
+
+    .DarkMode #navbar {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      background-color: #222;
+      border-bottom: 2px solid #444;
+      padding: 15px 10px;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    .DarkMode #navbar a {
+      text-decoration: none;
+      color: #ddd;
+      font-weight: bold;
+      padding-bottom: 5px;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .DarkMode #navbar a::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      background-color: lightseagreen;
+      transition: width 0.3s ease;
+    }
+
+    .DarkMode #navbar a:hover::after {
+      width: 100%;
+    }
+
+    .DarkMode #body {
+      background: black;
+      color: white;
+    }
+
+    .DarkMode .important {
+      animation: flashDark 1s steps(1, start) infinite;
+    }
+
+    @keyframes flashDark {
+      0%, 100% {
+        color: white;
+        font-weight: bold;
+      }
+      50% {
+        color: cyan;
+        font-weight: normal;
+      }
+    }
+
+    .DarkMode .ModeSwitch {
+      width: 150px;
+      height: 60px;
+      border: 2px solid white;
+      border-radius: 10px;
+      background: linear-gradient(135deg, white 50%, black 50%);
+      box-shadow:
+        inset 2px 2px 4px rgba(0,0,0,0.5),
+        inset -2px -2px 4px rgba(255,255,255,0.2),
+        2px 2px 6px rgba(255,255,255,0.2);
+      cursor: pointer;
+      font-weight: bold;
+      text-align: center;
+      line-height: 60px;
+      user-select: none;
+      transition: all 0.2s ease;
+      color: black;
+      flex-shrink: 0;
+    }
+
+    .DarkMode .hover-text {
+      display: none;
+      position: absolute;
+      top: 70px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: white;
+      color: black;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .DarkMode .button-container:hover .hover-text {
+      display: block;
+    }
+
+    .DarkMode footer {
+      color: black;
+      background-color: white;
+      text-align: center;
+      padding: 15px 0;
+      margin-top: 30px;
+      border-radius: 0 0 12px 12px;
+    }
+
+    /* === Content + Notifications sidebar layout === */
+    #content-wrapper {
+      display: flex;
+      gap: 20px;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+
+    #body {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    #notificationsSidebar {
+      width: 300px;
+      background-color: #f5f5f5;
+      border: 2px solid #ccc;
+      border-radius: 12px;
+      padding: 20px;
+      box-sizing: border-box;
+      height: fit-content;
+      color: #222;
+    }
+
+    .DarkMode #notificationsSidebar {
+      background-color: #222;
+      border-color: #444;
+      color: #ddd;
+    }
+
+    #notificationsSidebar h3 {
+      margin-top: 0;
+    }
+
+    #notificationsList {
+      list-style: none;
+      padding-left: 0;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    #notificationsList li {
+      padding: 8px 5px;
+      border-bottom: 1px solid #aaa;
+    }
+
+    .DarkMode #notificationsList li {
+      border-color: #666;
+    }
+  </style>
+</head>
+<body class="LightMode">
+  <header id="header">
+    <h1>Welcome to BAG Studios!</h1>
+  </header>
+  <nav id="navbar">
+    <a href="mods.html">MODS</a>
+    <a href="contacts.html">CONTACTS</a>
+    <a href="projects.html">PROJECTS</a>
+    <a href="about.html">ABOUT US</a>
+    <a href="downloads.html">DOWNLOADS</a>
+    <a href="javaCompiler.html">WRITE JAVA</a>
+    <a href="pythonCompiler.html">WRITE PYTHON</a>
+    <a href="cCompiler.html">WRITE C</a>
+    <button class="ModeSwitch" id="modeSwitchBtn" title="Switch theme">Switch Theme</button>
+  </nav>
+
+  <div id="content-wrapper">
+    <main id="body">
+      <h2>Hello! We are delighted to have you here. If this is your first time here, you might want to go on a little <a href="guide.html">tour</a>!</h2>
+      <p>If not, welcome back! If you are here to apply for developer status and help us here, go to our <a href="apply.html">application page</a>. If not, have a look around.</p>
+    </main>
+
+    <aside id="notificationsSidebar">
+      <h3>Notifications</h3>
+      <ul id="notificationsList">
+        <li>No new notifications.</li>
+      </ul>
+    </aside>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 BAG Studios. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    const modeSwitchBtn = document.getElementById('modeSwitchBtn');
+    const body = document.body;
+
+    // On page load, check saved mode
+    const savedMode = localStorage.getItem('mode');
+    if (savedMode) {
+      body.classList.remove('LightMode', 'DarkMode');
+      body.classList.add(savedMode);
+    }
+
+    function updateButtonText() {
+      if (body.classList.contains('LightMode')) {
+        modeSwitchBtn.textContent = 'Switch to Dark Mode';
+      } else {
+        modeSwitchBtn.textContent = 'Switch to Light Mode';
+      }
+    }
+    updateButtonText();
+
+    modeSwitchBtn.addEventListener('click', () => {
+      if (body.classList.contains('LightMode')) {
+        body.classList.replace('LightMode', 'DarkMode');
+        localStorage.setItem('mode', 'DarkMode');
+      } else {
+        body.classList.replace('DarkMode', 'LightMode');
+        localStorage.setItem('mode', 'LightMode');
+      }
+      updateButtonText();
+    });
+  </script>
+</body>
+</html>
