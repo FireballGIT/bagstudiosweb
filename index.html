@@ -1,167 +1,300 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-  <link href="https://fonts.googleapis.com/css2?family=Comfortaa&display=swap" rel="stylesheet" />
-  <style>
-    * {
-      font-family: "Comfortaa", cursive, sans-serif;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BAG Studios</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    #header, #navbar {
-      margin: 0;
-      padding: 0;
-    }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2E8B57 0%, #20B2AA 50%, #48D1CC 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
 
-    #header h1 {
-      margin: 0;
-      padding-bottom: 10px;
-    }
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
 
-    /* === LIGHT MODE === */
-    .LightMode #header {
-      background: linear-gradient(lightblue, seagreen);
-      color: black;
-      border: 3px solid black;
-      border-radius: 12px;
-      box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
-      padding: 30px;
-      text-align: center;
-    }
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: rgba(0, 139, 139, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            transition: all 0.3s ease;
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 2px 0 20px rgba(0, 0, 0, 0.1);
+        }
 
-    .LightMode #navbar {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      background-color: #f0f0f0;
-      border-bottom: 2px solid #ccc;
-      padding: 15px 10px;
-      flex-wrap: nowrap;
-      overflow-x: auto;
-      white-space: nowrap;
-    }
+        .sidebar.collapsed {
+            width: 60px;
+        }
 
-    .LightMode #navbar a {
-      text-decoration: none;
-      color: #333;
-      font-weight: bold;
-      padding-bottom: 5px;
-      position: relative;
-      flex-shrink: 0;
-    }
+        .toggle-btn {
+            background: linear-gradient(45deg, #20B2AA, #48D1CC);
+            border: none;
+            color: white;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-    .LightMode #navbar a::after {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      height: 3px;
-      width: 0%;
-      background-color: seagreen;
-      transition: width 0.3s ease;
-    }
+        .toggle-btn:hover {
+            transform: rotate(180deg);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
 
-    .LightMode #navbar a:hover::after {
-      width: 100%;
-    }
+        .nav-menu {
+            list-style: none;
+        }
 
-    .LightMode #body {
-      background: white;
-      color: black;
-    }
+        .nav-item {
+            margin-bottom: 15px;
+        }
 
-    .LightMode .important {
-      animation: flash 1s steps(1, start) infinite;
-    }
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 12px 15px;
+            border-radius: 8px;
+            display: block;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.1);
+            margin-bottom: 10px;
+        }
 
-    @keyframes flash {
-      0%, 100% {
-        color: black;
-        font-weight: bold;
-      }
-      50% {
-        color: red;
-        font-weight: normal;
-      }
-    }
+        .nav-link:hover {
+            background: linear-gradient(45deg, rgba(32, 178, 170, 0.8), rgba(72, 209, 204, 0.8));
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
 
-    .LightMode .ModeSwitch {
-      width: 150px;
-      height: 60px;
-      border: 2px solid black;
-      border-radius: 10px;
-      background: linear-gradient(135deg, black 50%, white 50%);
-      box-shadow:
-        inset 2px 2px 4px rgba(255,255,255,0.5),
-        inset -2px -2px 4px rgba(0,0,0,0.3),
-        2px 2px 6px rgba(0,0,0,0.3);
-      cursor: pointer;
-      font-weight: bold;
-      text-align: center;
-      line-height: 60px;
-      user-select: none;
-      transition: all 0.2s ease;
-      flex-shrink: 0;
-    }
+        .nav-link.active {
+            background: linear-gradient(45deg, #20B2AA, #48D1CC);
+        }
 
-    .LightMode .hover-text {
-      display: none;
-      position: absolute;
-      top: 70px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: black;
-      color: white;
-      padding: 6px 10px;
-      border-radius: 6px;
-      font-size: 14px;
-      white-space: nowrap;
-    }
+        .reddit-link {
+            background: linear-gradient(45deg, #FF6B35, #F7931E) !important;
+        }
 
-    .LightMode .button-container:hover .hover-text {
-      display: block;
-    }
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 40px;
+            transition: margin-left 0.3s ease;
+        }
 
-    .LightMode footer {
-      color: white;
-      background-color: black;
-      text-align: center;
-      padding: 15px 0;
-      margin-top: 30px;
-      border-radius: 0 0 12px 12px;
-    }
-  </style>
+        .main-content.expanded {
+            margin-left: 60px;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section h1 {
+            font-size: 3em;
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, #fff, #e0f7fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #e0f7fa;
+        }
+
+        .section p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+
+        .crew-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .crew-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .crew-name {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .crew-title {
+            color: #e0f7fa;
+            font-style: italic;
+        }
+
+        .contact-info {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+        }
+
+        .email {
+            font-size: 1.3em;
+            color: #fff;
+            text-decoration: none;
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #20B2AA, #48D1CC);
+            border-radius: 25px;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .email:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+    </style>
 </head>
-<body class="LightMode">
-  <header id="header">
-    <h1>Welcome to BAG Studios!</h1>
-  </header>
-  <nav id="navbar">
-    <a href="mods.html">MODS</a>
-    <a href="contacts.html">CONTACTS</a>
-    <a href="projects.html">PROJECTS</a>
-    <a href="about.html">ABOUT US</a>
-    <a href="downloads.html">DOWNLOADS</a>
-    <a href="javaCompiler.html">WRITE JAVA</a>
-    <a href="pythonCompiler.html">WRITE PYTHON</a>
-    <a href="cCompiler.html">WRITE C</a>
-  </nav>
+<body>
+    <div class="container">
+        <nav class="sidebar" id="sidebar">
+            <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active" onclick="showSection('home')">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" onclick="showSection('crew')">Crew</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" onclick="showSection('about')">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" onclick="showSection('contact')">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" onclick="showSection('projects')">Projects</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://reddit.com/r/bagstudios" class="nav-link reddit-link" target="_blank">Reddit</a>
+                </li>
+            </ul>
+        </nav>
 
-  <div id="content-wrapper">
-    <main id="body">
-      <h2>Hello! We are delighted to have you here. If this is your first time here, you might want to go on a little <a href="guide.html">tour</a>!</h2>
-      <p>If not, welcome back! If you are here to apply for developer status and help us here, go to our <a href="apply.html">application page</a>. If not, have a look around.</p>
-    </main>
+        <main class="main-content" id="mainContent">
+            <section id="home" class="section active">
+                <h1>Welcome to BAG Studios</h1>
+                <p>Where creativity meets innovation in the digital realm. BAG Studios is your premier destination for cutting-edge digital solutions, creative designs, and transformative experiences.</p>
+                <p>We believe in pushing boundaries, challenging the status quo, and creating digital masterpieces that leave lasting impressions. Our team of talented professionals is dedicated to bringing your vision to life with passion, precision, and unparalleled expertise.</p>
+                <p>From concept to completion, we're here to make your digital dreams a reality. Join us on this incredible journey of creativity and innovation.</p>
+            </section>
 
-    <aside id="notificationsSidebar">
-      <h3>Notifications</h3>
-      <ul id="notificationsList">
-        <li>No new notifications.</li>
-      </ul>
-    </aside>
-  </div>
+            <section id="crew" class="section">
+                <h1>Our Crew</h1>
+                <div class="crew-card">
+                    <div class="crew-name">Arlo Grace</div>
+                    <div class="crew-title">CEO, CTO, and Founder</div>
+                </div>
+                <div class="crew-card">
+                    <div class="crew-name">Gray Oster</div>
+                    <div class="crew-title">CFO</div>
+                </div>
+                <div class="crew-card">
+                    <div class="crew-name">Bo Hook</div>
+                    <div class="crew-title">VP</div>
+                </div>
+            </section>
 
-  <footer>
-    <p>&copy; 2025 BAG Studios. All Rights Reserved.</p>
-  </footer>
+            <section id="about" class="section">
+                <h1>About BAG Studios</h1>
+                <p>BAG Studios was founded with a simple yet powerful vision: to revolutionize the digital landscape through innovative design and cutting-edge technology. We are a team of passionate creators, developers, and dreamers who believe in the transformative power of digital experiences.</p>
+                <p>Our journey began with a shared passion for creativity and technology. Today, we stand as a leading force in digital innovation, delivering exceptional solutions that inspire, engage, and delight users across the globe.</p>
+                <p>At BAG Studios, we don't just build products – we craft experiences that tell stories, solve problems, and create meaningful connections between brands and their audiences.</p>
+            </section>
+
+            <section id="contact" class="section">
+                <h1>Contact Us</h1>
+                <div class="contact-info">
+                    <p>Ready to bring your vision to life? Get in touch with us!</p>
+                    <a href="mailto:gafutb@outlook.com" class="email">gafutb@outlook.com</a>
+                </div>
+            </section>
+
+            <section id="projects" class="section">
+                <h1>Our Projects</h1>
+                <h2>Coming Soon!</h2>
+                <p>We're currently working on some exciting projects that will showcase our expertise in digital innovation. Stay tuned for updates on our latest creations and collaborations.</p>
+                <p>From mobile applications to web platforms, from branding initiatives to interactive experiences, our portfolio is growing every day. We can't wait to share our work with you.</p>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('mainContent');
+            sidebar.classList.toggle('collapsed');
+            mainContent.classList.toggle('expanded');
+        }
+
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // Remove active class from all nav links
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => link.classList.remove('active'));
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Add active class to clicked nav link
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
